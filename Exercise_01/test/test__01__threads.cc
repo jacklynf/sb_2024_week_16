@@ -30,7 +30,7 @@ TEST_CASE("each thread output appears exactly once and intact")
     threads.push_back(
       thread(
         [&ostr, &t_lock, idx] ()  {
-          t_lock.lock();
+          lock_guard<mutex> lg(t_lock); // shamefully switching to use lock guard instead of just lock
           ostr << "This is the output for thread idx=" << idx << endl;
           t_lock.unlock();
         }
